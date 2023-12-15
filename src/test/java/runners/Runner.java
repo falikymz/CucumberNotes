@@ -7,13 +7,15 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         plugin = {
-                "pretty",
+                "pretty",//==> console da scenariolar hakkında ayrıntılı bilgi verir
                 "html:target/default-cucumber-reports.html",
                   "json:target/json-reports/cucumber.json",
-                  "junit:target/xml-report/cucumber.xml"  },
+                  "junit:target/xml-report/cucumber.xml",
+                  "rerun:TestOutput/failed_scenario.txt"
+        },
         features = "src/test/resources/features/",
-        glue = "stepDefinitions",
-        tags = "@US010",
+        glue = {"stepDefinitions","hooks"},
+        tags = "@US013",
         dryRun = false,
         monochrome=false
 )
@@ -27,6 +29,7 @@ public class Runner {
     pathleri gibi test ayrıtılarını tanımlarız ve bazı pluginleri ekleyebiliriz
     dryRun=true ==> iken feature file daki test senaryolarını çalıştırmadan eksik
     stepDefiniton i olup olmadığını kontrol eder , browseri çalıştırmaz
+    rerun plugini ile fail olan scenarioları burada belirtmiş olduğumuz failed_scenario.txt dosyasi icinde tutabiliriz
 
      */
 }

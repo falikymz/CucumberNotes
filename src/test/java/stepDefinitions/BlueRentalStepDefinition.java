@@ -8,6 +8,7 @@ import pages.BlueRentalPage;
 import pages.DataTablePage;
 import utilities.ConfigReader;
 import utilities.Driver;
+import utilities.ExcelReader;
 import utilities.ReusableMethods;
 
 import java.util.List;
@@ -74,6 +75,21 @@ public class BlueRentalStepDefinition {
             blueRentalPage.password.sendKeys(password,Keys.ENTER);
             ReusableMethods.bekle(2);
             Driver.getDriver().navigate().back();
+        }
+    }
+
+    @And("exceldeki {string} sayfasındaki  kullanici bilgileri ile login olur")
+    public void exceldekiSayfasındakiKullaniciBilgileriIleLoginOlur(String sayfaIsmi) {
+        String dosyaYolu="src\\test\\resources\\adminTestData.xlsx";
+        ExcelReader excelReader = new ExcelReader(dosyaYolu,sayfaIsmi);
+        for (int i = 1; i < excelReader.rowCount() ; i++) {
+            String email=excelReader.getCellData(i, 0);
+            String password=excelReader.getCellData(i, 1);
+            blueRentalPage.email.sendKeys(email);
+            blueRentalPage.password.sendKeys(password,Keys.ENTER);
+            ReusableMethods.bekle(1);
+            Driver.getDriver().navigate().back();
+            ReusableMethods.bekle(1);
         }
     }
 }
