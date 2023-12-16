@@ -6,6 +6,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.awt.*;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -106,7 +109,7 @@ public class ReusableMethods {
     public static void screenShot(String name) {
         String date = DateTimeFormatter.ofPattern("ddMMyyyy_HHmmss").format( LocalDateTime.now() );
         TakesScreenshot ts = (TakesScreenshot) Driver.getDriver();
-        String dosyaYolu = System.getProperty("user.dir") + "/src/test/java/techproed/testOutputs/screenshots/" + name + date + ".png";
+        String dosyaYolu = System.getProperty("user.dir") + "/src/test/java/techproed/testOutputs/Screenshots/" + name + date + ".png";
 
         try {
             Files.write(Paths.get(dosyaYolu),ts.getScreenshotAs(OutputType.BYTES));
@@ -182,5 +185,50 @@ public class ReusableMethods {
         String attribute_Value = (String) js.executeScript("return document.getElementById('" + id + "')." + attributeName);
         System.out.println("Attribute Value: = " + attribute_Value);
     }
+
+
+    //File Upload Robot Class
+    public static void uploadFilePath(String dosyaYolu){
+        try{
+            bekle(3); // 3 saniye bekletir. Bu, kodun başka işlemler için hazır olmasını sağlar.
+
+            StringSelection stringSelection = new StringSelection(dosyaYolu);
+            //Verilen Dosya yolunu bir StringSelection objectine dönüştürürüz
+
+            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection,null);
+            //verilen stringSelection'i (bu durumda dosya yolu), daha sonra başka bir yere yapıştırmak üzere sistem panosuna kopyalamaktır.
+
+            Robot robot = new Robot();
+            // Robot sınıfından bir object olustururuz, Bu class javadan gelir ve klavye ve mouse etkileşimlerini simüle eder.
+
+            robot.keyPress(KeyEvent.VK_CONTROL);
+            robot.keyPress(KeyEvent.VK_V);
+            // CTRL+V tuslarina basar dolayisiyla panodaki veriyi yapıştırır.
+
+            robot.keyRelease(KeyEvent.VK_CONTROL);
+            robot.keyRelease(KeyEvent.VK_V);
+            // CTRL ve V tuşlarından elini kaldirir
+
+            robot.delay(3000);
+            // 3 saniye bekler, bu süre içerisinde yapıştırılan verinin işlenmesini sağlar.
+
+            robot.keyPress(KeyEvent.VK_ENTER);
+            robot.keyRelease(KeyEvent.VK_ENTER);
+            // ENTER tuşuna basarak yapıştırma işlemini onaylar veya diyalog penceresini kapatır.
+
+            robot.delay(3000);
+            // Sonraki işlemler için ek 3 saniye bekler.
+
+        }catch (Exception ignored){
+            // Herhangi bir hata oluşursa, bu hata yoksayılır.
+        }
+    }
+
+    /*
+    Upload file islemleri yaparken sendKeys() methodunun yetersiz kaldığı durumlarda bu method araciliği ile
+    yükleme yapabiliriz
+    Bu method sadece windows kullanıcıları için geçerlidir
+     */
+
 
 }

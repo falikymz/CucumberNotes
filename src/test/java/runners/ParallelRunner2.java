@@ -8,18 +8,18 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         plugin = {
                 "pretty",//==> console da scenariolar hakkında ayrıntılı bilgi verir
-                "html:target/default-cucumber-reports.html",
-                  "json:target/json-reports/cucumber.json",
-                  "junit:target/xml-report/cucumber.xml",
+                "html:target/default-cucumber-reports2.html",
+                  "json:target/json-reports/cucumber2.json",
+                  "junit:target/xml-report/cucumber2.xml",
                   "rerun:TestOutput/failed_scenario.txt"
         },
         features = "src/test/resources/features/",
         glue = {"stepDefinitions","hooks"},
-        tags = "@US014",
-        dryRun = true,
+        tags = "@US002",
+        dryRun = false,
         monochrome=false
 )
-public class Runner {
+public class ParallelRunner2 {
     /*
     Runner class body içinde bir şey yazılmaz
     Runner classinda önemli olan 2 tane annotation vardır
